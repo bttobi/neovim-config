@@ -112,11 +112,11 @@ map("n", "<leader>xa", function()
 end, { noremap = true, silent = true, desc = "Close all buffers" })
 
 --terminal splits
-map("n", "<leader>h", function()
+map("n", "<leader>th", function()
 	require("nvchad.term").new({ pos = "sp", size = 0.2 })
 end, { noremap = true, silent = true, desc = "Horizontal terminal split" }) -- horizontal terminal split
 
-map("n", "<leader>v", function()
+map("n", "<leader>tv", function()
 	require("nvchad.term").new({ pos = "vsp", size = 0.2 })
 end, { noremap = true, silent = true, desc = "Vertical terminal split" }) -- vertical terminal split
 
@@ -125,7 +125,7 @@ vim.api.nvim_set_keymap("t", "<C-x>", "<C-\\><C-n>", { noremap = true, silent = 
 vim.api.nvim_set_keymap("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
 --theme picker
-map("n", "<leader>th", function()
+map("n", "<leader>tp", function()
 	require("nvchad.themes").open({ style = "flat", border = true })
 end, { noremap = true, silent = true, desc = "Open theme picker" })
 
@@ -134,6 +134,25 @@ map("n", "<leader>ch", ":NvCheatsheet<CR>", { noremap = true, silent = true, des
 
 --harpoon
 --TODO: add harpoon mappings
+map("n", "<leader>a", function()
+	require("harpoon"):list():add()
+end)
+map("n", "<C-h>", function()
+	require("harpoon"):list():select(1)
+end)
+map("n", "<C-j>", function()
+	require("harpoon"):list():select(2)
+end)
+map("n", "<C-k>", function()
+	require("harpoon"):list():select(3)
+end)
+map("n", "<C-l>", function()
+	require("harpoon"):list():select(4)
+end)
+
+map("n", "<leader>h", function()
+	require("harpoon").ui:toggle_quick_menu((require("harpoon"):list()))
+end, { desc = "Open harpoon window" })
 
 --paste persist cursor position
 map("n", "p", function()
