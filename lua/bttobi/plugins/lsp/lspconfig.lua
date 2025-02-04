@@ -68,10 +68,14 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		require("mason").setup()
+		require("mason").setup({
+			ui = {
+				check_outdated_packages_on_open = false, -- Prevent Mason from checking for updates on startup
+			},
+			registries = { "github:nvim-java/mason-registry", "github:mason-org/mason-registry" },
+		})
 
 		require("mason-lspconfig").setup({
-			automatic_installation = true,
 			ensure_installed = {
 				"ts_ls",
 				"html",

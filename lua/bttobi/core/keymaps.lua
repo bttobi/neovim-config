@@ -84,39 +84,39 @@ map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Dismiss Noice Messages
 map("n", "<Tab>", function()
 	require("nvchad.tabufline").next()
 end, { noremap = true, silent = true })
-
--- Switch to the previous buffer with Shift + Tab
+--
+-- -- Switch to the previous buffer with Shift + Tab
 map("n", "<S-Tab>", function()
 	require("nvchad.tabufline").prev()
 end, { noremap = true, silent = true })
-
--- Move buffer to left
--- TODO:
-map("n", "<Tab>l", function()
-	require("nvchad.tabufline").move_buf(1)
-end, { noremap = true, silent = true })
-
--- Move buffer to right
-map("n", "<Tab>h", function()
-	require("nvchad.tabufline").move_buf(-1)
-end, { noremap = true, silent = true })
+--
+-- -- Move buffer to left
+-- -- TODO:
+-- map("n", "<Tab>l", function()
+-- 	require("nvchad.tabufline").move_buf(1)
+-- end, { noremap = true, silent = true })
+--
+-- -- Move buffer to right
+-- map("n", "<Tab>h", function()
+-- 	require("nvchad.tabufline").move_buf(-1)
+-- end, { noremap = true, silent = true })
 
 -- Close the current buffer with Leader + x
 map("n", "<leader>x", function()
 	require("nvchad.tabufline").close_buffer()
 end, { noremap = true, silent = true, desc = "Close current buffer" })
-
--- Close all buffers
+--
+-- -- Close all buffers
 map("n", "<leader>xa", function()
 	require("nvchad.tabufline").closeAllBufs(true)
 end, { noremap = true, silent = true, desc = "Close all buffers" })
-
+--
 --terminal splits
-map("n", "<leader>th", function()
+map("n", "<leader>h", function()
 	require("nvchad.term").new({ pos = "sp", size = 0.2 })
 end, { noremap = true, silent = true, desc = "Horizontal terminal split" }) -- horizontal terminal split
 
-map("n", "<leader>tv", function()
+map("n", "<leader>v", function()
 	require("nvchad.term").new({ pos = "vsp", size = 0.2 })
 end, { noremap = true, silent = true, desc = "Vertical terminal split" }) -- vertical terminal split
 
@@ -131,28 +131,6 @@ end, { noremap = true, silent = true, desc = "Open theme picker" })
 
 --cheatsheet
 map("n", "<leader>ch", ":NvCheatsheet<CR>", { noremap = true, silent = true, desc = "Open cheatsheet" })
-
---harpoon
---TODO: add harpoon mappings
-map("n", "<leader>a", function()
-	require("harpoon"):list():add()
-end)
-map("n", "<C-h>", function()
-	require("harpoon"):list():select(1)
-end)
-map("n", "<C-j>", function()
-	require("harpoon"):list():select(2)
-end)
-map("n", "<C-k>", function()
-	require("harpoon"):list():select(3)
-end)
-map("n", "<C-l>", function()
-	require("harpoon"):list():select(4)
-end)
-
-map("n", "<leader>h", function()
-	require("harpoon").ui:toggle_quick_menu((require("harpoon"):list()))
-end, { desc = "Open harpoon window" })
 
 --paste persist cursor position
 map("n", "p", function()
