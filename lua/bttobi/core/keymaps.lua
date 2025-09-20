@@ -1,9 +1,11 @@
 vim.g.mapleader = " "
 
+
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
+map("n", ":", ";", { desc = "Re-do movement" })
 map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
 map("v", "jk", "<ESC>", { desc = "Exit visual mode" })
 map("n", "<leader>nh", ":nohl<CR>", { desc = "Clear highlights" })
@@ -28,45 +30,31 @@ map("n", "n", "nzzzv", opts)
 map("n", "N", "Nzzzv", opts)
 
 -- moving lines
-map("n", "<A-Up>", ":MoveLine -1<CR>", opts)
-map("n", "<A-Down>", ":MoveLine 1<CR>", opts)
-map("n", "<A-S-Left>", ":MoveWord -1<CR>", opts)
-map("n", "<A-S-Right>", ":MoveWord 1<CR>", opts)
+map("n", "<A-Up>", ":m .-2<CR>==", opts)
+map("n", "<A-Down>", ":m .+1<CR>==", opts)
 
-map("x", "<A-Up>", ":MoveBlock -1<CR>", opts)
-map("x", "<A-Down>", ":MoveBlock 1<CR>", opts)
-map("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
-map("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)
-
---mac os alt
-map("n", "Ż", ":MoveLine -1<CR>", opts)
-map("n", "∆", ":MoveLine 1<CR>", opts)
-map("n", "<S-ķ>", ":MoveWord -1<CR>", opts)
-map("n", "<S-ł>", ":MoveWord 1<CR>", opts)
-
-map("x", "Ż", ":MoveBlock 1<CR>", opts)
-map("x", "∆", ":MoveBlock -1<CR>", opts)
-map("v", "ķ", ":MoveHBlock -1<CR>", opts)
-map("v", "ł", ":MoveHBlock 1<CR>", opts)
+-- moving blocks
+map("x", "<A-Up>", ":m '<-2<CR>gv=gv", opts)
+map("x", "<A-Down>", ":m '>+1<CR>gv=gv", opts)
 
 --toggle color picker
 map("n", "<leader>cp", function()
-	require("minty.huefy").open()
+  require("minty.huefy").open()
 end, { desc = "toggle color hues picker" })
 map("n", "<leader>cs", function()
-	require("minty.shades").open()
+  require("minty.shades").open()
 end, { desc = "toggle color shades picker" })
 
 --context menu
 map("n", "<C-t>", function()
-	require("menu").open("default", { border = true })
+  require("menu").open("default", { border = true })
 end, {})
 
 map("n", "<RightMouse>", function()
-	vim.cmd.exec('"normal! \\<RightMouse>"')
+  vim.cmd.exec '"normal! \\<RightMouse>"'
 
-	local options = vim.bo.ft == "NvimTree" and "nvimtree" or "default"
-	require("menu").open(options, { mouse = true, border = true })
+  local options = vim.bo.ft == "NvimTree" and "nvimtree" or "default"
+  require("menu").open(options, { mouse = true, border = true })
 end, {})
 
 --foldings
@@ -82,12 +70,12 @@ map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Dismiss Noice Messages
 --tabufline
 -- Switch to the next buffer with Tab
 map("n", "<Tab>", function()
-	require("nvchad.tabufline").next()
+  require("nvchad.tabufline").next()
 end, { noremap = true, silent = true })
 --
 -- -- Switch to the previous buffer with Shift + Tab
 map("n", "<S-Tab>", function()
-	require("nvchad.tabufline").prev()
+  require("nvchad.tabufline").prev()
 end, { noremap = true, silent = true })
 --
 -- -- Move buffer to left
@@ -103,21 +91,21 @@ end, { noremap = true, silent = true })
 
 -- Close the current buffer with Leader + x
 map("n", "<leader>x", function()
-	require("nvchad.tabufline").close_buffer()
+  require("nvchad.tabufline").close_buffer()
 end, { noremap = true, silent = true, desc = "Close current buffer" })
 --
 -- -- Close all buffers
 map("n", "<leader>xa", function()
-	require("nvchad.tabufline").closeAllBufs(true)
+  require("nvchad.tabufline").closeAllBufs(true)
 end, { noremap = true, silent = true, desc = "Close all buffers" })
 --
 --terminal splits
 map("n", "<leader>h", function()
-	require("nvchad.term").new({ pos = "sp", size = 0.2 })
+  require("nvchad.term").new { pos = "sp", size = 0.2 }
 end, { noremap = true, silent = true, desc = "Horizontal terminal split" }) -- horizontal terminal split
 
 map("n", "<leader>v", function()
-	require("nvchad.term").new({ pos = "vsp", size = 0.2 })
+  require("nvchad.term").new { pos = "vsp", size = 0.2 }
 end, { noremap = true, silent = true, desc = "Vertical terminal split" }) -- vertical terminal split
 
 --terminal modes
@@ -126,7 +114,7 @@ vim.api.nvim_set_keymap("t", "jk", "<C-\\><C-n>", { noremap = true, silent = tru
 
 --theme picker
 map("n", "<leader>tp", function()
-	require("nvchad.themes").open({ style = "flat", border = true })
+  require("nvchad.themes").open { style = "flat", border = true }
 end, { noremap = true, silent = true, desc = "Open theme picker" })
 
 --cheatsheet
@@ -134,7 +122,7 @@ map("n", "<leader>ch", ":NvCheatsheet<CR>", { noremap = true, silent = true, des
 
 --paste persist cursor position
 map("n", "p", function()
-	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	vim.cmd("put")
-	vim.api.nvim_win_set_cursor(0, { row + 1, col })
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.cmd "put"
+  vim.api.nvim_win_set_cursor(0, { row + 1, col })
 end)
