@@ -59,5 +59,23 @@ return {
     }
     options = vim.tbl_deep_extend("force", options, require "nvchad.cmp")
     cmp.setup(options)
+
+    -- Search completion
+    cmp.setup.cmdline({ "/", "?" }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "buffer" },
+      },
+    })
+
+    -- Command completion
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "path" },
+      }, {
+        { name = "cmdline" },
+      }),
+    })
   end,
 }

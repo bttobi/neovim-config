@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 
-
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
@@ -126,3 +125,10 @@ map("n", "p", function()
   vim.cmd "put"
   vim.api.nvim_win_set_cursor(0, { row + 1, col })
 end)
+
+--DAP
+map("n", "<leader>dt", function()
+  require("dapui").toggle()
+end, { noremap = true, silent = true, desc = "Toggle DAP UI" })
+map("n", "<leader>db", ":DapToggleBreakpoint<CR>", { noremap = true, silent = true, desc = "Toggle DAP breakpoint" })
+map("n", "<leader>dc", ":DapContinue<CR>", { noremap = true, silent = true, desc = "DAP continue" })
