@@ -132,3 +132,31 @@ map("n", "<leader>dt", function()
 end, { noremap = true, silent = true, desc = "Toggle DAP UI" })
 map("n", "<leader>db", ":DapToggleBreakpoint<CR>", { noremap = true, silent = true, desc = "Toggle DAP breakpoint" })
 map("n", "<leader>dc", ":DapContinue<CR>", { noremap = true, silent = true, desc = "DAP continue" })
+
+--Refactoring
+map("x", "<leader>re", ":Refactor extract ", { noremap = true, silent = true, desc = "Refactor extract" })
+map(
+  "x",
+  "<leader>rf",
+  ":Refactor extract_to_file ",
+  { noremap = true, silent = true, desc = "Refactor extract to a file" }
+)
+
+map("x", "<leader>rv", ":Refactor extract_var ", { noremap = true, silent = true, desc = "Refactor extract variable" })
+
+map(
+  { "n", "x" },
+  "<leader>ri",
+  ":Refactor inline_var",
+  { noremap = true, silent = true, desc = "Refactor inline variable" }
+)
+
+map("n", "<leader>rI", ":Refactor inline_func", { noremap = true, silent = true, desc = "Refactor inline function" })
+
+map("n", "<leader>rb", ":Refactor extract_block", { noremap = true, silent = true, desc = "Refactor extract block" })
+map(
+  "n",
+  "<leader>rbf",
+  ":Refactor extract_block_to_file",
+  { noremap = true, silent = true, desc = "Refactor extract block to file" }
+)
