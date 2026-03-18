@@ -29,12 +29,20 @@ map("n", "n", "nzzzv", opts)
 map("n", "N", "Nzzzv", opts)
 
 -- moving lines
-map("n", "<A-Up>", ":m .-2<CR>==", opts)
-map("n", "<A-Down>", ":m .+1<CR>==", opts)
+map("n", "<A-k>", ":m .-2<CR>==", opts)
+map("n", "<A-j>", ":m .+1<CR>==", opts)
 
 -- moving blocks
-map("x", "<A-Up>", ":m '<-2<CR>gv=gv", opts)
-map("x", "<A-Down>", ":m '>+1<CR>gv=gv", opts)
+map("x", "<A-k>", ":m '<-2<CR>gv=gv", opts)
+map("x", "<A-j>", ":m '>+1<CR>gv=gv", opts)
+
+-- moving lines -MAC OS
+map("n", "Ż", ":m .-2<CR>==", opts)
+map("n", "∆", ":m .+1<CR>==", opts)
+
+-- moving blocks -MAC OS
+map("x", "Ż", ":m '<-2<CR>gv=gv", opts)
+map("x", "∆", ":m '>+1<CR>gv=gv", opts)
 
 --toggle color picker
 map("n", "<leader>cp", function()
