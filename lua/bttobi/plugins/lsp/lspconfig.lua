@@ -10,6 +10,7 @@ return {
   },
   config = function()
     local lspconfig = require "lspconfig"
+    local configs = require "lspconfig.configs"
 
     local cmp_nvim_lsp = require "cmp_nvim_lsp"
 
@@ -56,7 +57,7 @@ return {
         map.set("n", "K", vim.lsp.buf.hover, opts)
 
         opts.desc = "Restart LSP"
-        map.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        map.set("n", "<leader>rs", ":lsp restart<CR>", opts)
       end,
     })
 
@@ -72,6 +73,17 @@ return {
         },
       },
     }
+
+    if not configs.kotlin_lsp then
+      configs.kotlin_lsp = {
+        default_config = {
+          cmd = { "kotlin-lsp", "--stdio" },
+          filetypes = { "kotlin" },
+          root_dir = lspconfig.util.root_pattern("settings.gradle.kts", "build.gradle.kts", "settings.gradle", ".git"),
+          single_file_support = false,
+        },
+      }
+    end
 
     require("mason").setup {
       ui = {
@@ -100,7 +112,9 @@ return {
         end,
         jdtls = function()
           require("java").setup()
-          lspconfig["jdtls"].setup {}
+          lspconfig["jdtls"].setup {
+            capabilities = capabilities,
+          }
         end,
         ["emmet_ls"] = function()
           -- configure emmet language server
@@ -135,6 +149,9 @@ return {
           }
         end,
       },
+    }
+    lspconfig.kotlin_lsp.setup {
+      capabilities = capabilities,
     }
   end,
 }

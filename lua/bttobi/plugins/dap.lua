@@ -88,6 +88,22 @@ return {
       }
     end
 
+    dap.adapters.java = {
+      type = "server",
+      host = "127.0.0.1",
+      port = 5005,
+    }
+
+    dap.configurations.kotlin = {
+      {
+        type = "java",
+        request = "attach",
+        name = "Attach to Kotlin JVM (Spring Boot / Gradle)",
+        hostName = "127.0.0.1",
+        port = 5005,
+      },
+    }
+
     dapui.setup()
   end,
 }
