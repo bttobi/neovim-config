@@ -37,7 +37,7 @@ vim.pack.add {
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
   { src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
-  { src = "https://github.com/stevearc/oil.nvim" },
+  { src = "https://github.com/nvim-tree/nvim-tree.lua" },
   { src = "https://github.com/windwp/nvim-autopairs" },
   { src = "https://github.com/rmagatti/auto-session" },
   { src = "https://github.com/windwp/nvim-ts-autotag" },
@@ -119,7 +119,9 @@ require("mason-lspconfig").setup {
       }
     end,
     jdtls = function()
-      require("java").setup()
+      require("java").setup {
+        jdk = { auto_install = false },
+      }
       lspconfig["jdtls"].setup {
         capabilities = capabilities,
       }
@@ -185,10 +187,6 @@ telescope.setup {
 
 -- telescope.load_extension "fzf"
 
-require("oil").setup {
-  columns = { "icon" },
-  view_options = { show_hidden = true },
-}
 require("auto-session").setup {
   auto_restore_enabled = false,
   auto_session_suppress_dirs = { "~/", "~/Downloads", "~/Desktop/" },
@@ -238,7 +236,11 @@ require("conform").setup {
   },
 }
 
-require("java").setup()
+require("java").setup {
+  jdk = {
+    auto_install = false,
+  },
+}
 vim.lsp.enable "jdtls"
 
 local cmp = require "cmp"
@@ -425,6 +427,51 @@ require("dap-vscode-js").setup {
   },
 }
 
+-- NvimTree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+require("nvim-tree").setup {
+  view = {
+    width = 35,
+    relativenumber = true,
+  },
+  -- change folder arrow icons
+  renderer = {
+    indent_markers = {
+      enable = true,
+    },
+    icons = {
+      glyphs = {
+        folder = {
+          arrow_closed = "", -- arrow when folder is closed
+          arrow_open = "", -- arrow when folder is open
+        },
+      },
+    },
+  },
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  },
+  -- disable window_picker for
+  -- explorer to work well with
+  -- window splits
+  actions = {
+    open_file = {
+      window_picker = {
+        enable = false,
+      },
+    },
+  },
+  filters = {
+    custom = { ".DS_Store" },
+  },
+  git = {
+    ignore = false,
+  },
+}
+
 -- codediff
 require("codediff").setup {}
 
@@ -573,7 +620,7 @@ local tobiHeader = {
 dashboard.section.header.val = tobiHeader
 dashboard.section.buttons.val = {
   dashboard.button("e", "📄  > New file", "<cmd>ene<CR>"),
-  dashboard.button("SPC ee", "📑  > Toggle file explorer", "<cmd>Oil<CR>"),
+  dashboard.button("SPC ee", "📑  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
   dashboard.button("SPC ff", "🔍  > Find file", "<cmd>Telescope find_files<CR>"),
   dashboard.button("SPC fs", "👀  > Find word", "<cmd>Telescope live_grep<CR>"),
   dashboard.button("SPC ft", "✅  > Find TODO", "<cmd>TodoTelescope<CR>"),
@@ -592,6 +639,13 @@ require("base46").load_all_highlights()
 vim.cmd "let g:netrw_liststyle = 3"
 
 local opt = vim.opt
+
+vim.o.winborder = "rounded"
+vim.o.foldcolumn = "1" -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.fillchars = [[eob: ,fold: ,foldopen:⏷,foldsep: ,foldclose:⏵]]
 
 opt.relativenumber = true
 opt.number = true
@@ -689,13 +743,6 @@ end, {})
 -- auto-session
 map("n", "<leader>wr", "<cmd>AutoSession restore<CR>", { desc = "Restore session for cwd" })
 map("n", "<leader>ws", "<cmd>AutoSession save<CR>", { desc = "Save session for auto session root dir" })
-
---foldings
-vim.o.foldcolumn = "1" -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-vim.o.fillchars = [[eob: ,fold: ,foldopen:⏷,foldsep: ,foldclose:⏵]]
 
 --noice messages
 map("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Dismiss Noice Messages" })
@@ -831,9 +878,12 @@ map("n", "<leader>xa", function()
   print "All buffers closed!"
 end, { desc = "Close all buffers using Telescope" })
 
--- oil
-map("n", "<C-n>", "<cmd>Oil<cr>", { desc = "Open parent directory oil nvim" })
-map("n", "<leader>ee", "<cmd>Oil<cr>", { desc = "Open parent directory oil nvim" })
+-- NvimTree
+map("n", "<c-n>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+map("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+map("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" })
+map("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
+map("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
 
 -- lazygit
 map("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "Open lazy git" })
