@@ -1012,6 +1012,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "K", vim.lsp.buf.hover, opts)
 
     opts.desc = "Restart LSP"
-    map("n", "<leader>rs", vim.cmd "lsp restart", opts)
+    map("n", "<leader>rs", function()
+      vim.cmd.lsp "restart"
+    end, opts)
   end,
 })
