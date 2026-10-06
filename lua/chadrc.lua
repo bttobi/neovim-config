@@ -24,7 +24,7 @@ local options = {
 
     statusline = {
       enabled = true,
-      theme = "default", -- default/vscode/vscode_colored/minimal
+      theme = "minimal", -- default/vscode/vscode_colored/minimal
       -- default/round/block/arrow separators work only for default statusline theme
       -- round and block will work for minimal theme only
       separator_style = "default",
@@ -58,6 +58,7 @@ local options = {
   lsp = { signature = true },
 
   cheatsheet = {
+    enabled = false,
     theme = "grid", -- simple/grid
     excluded_groups = { "terminal (t)", "autopairs", "Nvim", "Opens" }, -- can add group name or with mode
   },
